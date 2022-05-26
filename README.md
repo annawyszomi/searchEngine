@@ -58,6 +58,8 @@ curl -X GET \
 ## Results
 The following documents are indexed:
 Document 1: “the brown fox jumped over the brown dog” Document 2: “the lazy brown dog sat in the corner” Document 3: “the red fox bit the lazy dog”
-A search for “brown” should now return the list: [document 2, document 1]. 
+
+A search for “brown” should now return the list: [document 2, document 1]
+
 A search for “fox” should return the list: [document 1, document 3]
 
