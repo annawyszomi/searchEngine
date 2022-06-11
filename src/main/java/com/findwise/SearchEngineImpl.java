@@ -15,11 +15,11 @@ public class SearchEngineImpl implements SearchEngine {
 
     @Override
     public void indexDocument(String id, String content) {
+        Set<String> docsIds;
         List<String> terms = tokenizeDocument(content.toLowerCase());
         documents.put(id, terms);
 
         for (var term : terms) {
-            Set<String> docsIds;
             if (!termsMap.containsKey(term)) {
                 docsIds = new HashSet<>();
                 docsIds.add(id);
@@ -28,7 +28,8 @@ public class SearchEngineImpl implements SearchEngine {
                 docsIds = termsMap.get(term);
                 docsIds.add(id);
             }
-            termFrequency.put(term, termsMap.get(term).size());
+            var sizeOfTermFrequencyMap = termsMap.get(term).size();
+            termFrequency.put(term, sizeOfTermFrequencyMap);
         }
     }
 
