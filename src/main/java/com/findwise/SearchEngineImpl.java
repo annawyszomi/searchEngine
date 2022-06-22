@@ -3,7 +3,15 @@ package com.findwise;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +44,7 @@ public class SearchEngineImpl implements SearchEngine {
     @Override
     public List<IndexEntry> search(String term) {
         if (term == null || !termsMap.containsKey(term)) {
-            throw new IllegalArgumentException("term: "+ term + " not found");
+            throw new IllegalArgumentException("term: " + term + " not found");
         }
         var filteredDocList = termsMap.get(term);
 
