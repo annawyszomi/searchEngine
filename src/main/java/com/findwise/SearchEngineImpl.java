@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 
 @Service
@@ -18,8 +17,8 @@ import java.util.TreeMap;
 public class SearchEngineImpl implements SearchEngine {
 
     private final Map<String, List<String>> documents = new HashMap<>();
-    private final Map<String, Set<String>> termsMap = new TreeMap<>();
-    private final Map<String, Integer> termFrequency = new TreeMap<>();
+    private final Map<String, Set<String>> termsMap = new HashMap<>();
+    private final Map<String, Integer> termFrequency = new HashMap<>();
 
     @Override
     public void indexDocument(String id, String content) {
@@ -54,18 +53,16 @@ public class SearchEngineImpl implements SearchEngine {
     }
 
     public void insertData(List<Doc> docs) {
-        for (Doc doc : docs) {
-            indexDocument(doc.getId(), doc.getContent());
-        }
+        docs.forEach(doc -> indexDocument(doc.getId(), doc.getContent()));
     }
 
     public double calculateScore(String id, String term) {
-        long termInDoc = documents.get(id).stream().filter(term::equals).count();
+        var termInDoc = documents.get(id).stream().filter(term::equals).count();
         double sizeOfDoc = documents.get(id).size();
-        long nrOfDocuments = documents.size();
-        double sizeOfTermFrequencyMap = termFrequency.get(term);
-        double tf = termInDoc / sizeOfDoc;
-        double idf = Math.log(nrOfDocuments / (sizeOfTermFrequencyMap));
+        double nrOfDocuments = documents.size();
+        var sizeOfTermFrequencyMap = termFrequency.get(term);
+        var tf = termInDoc / sizeOfDoc;
+        var idf = Math.log(nrOfDocuments / (sizeOfTermFrequencyMap));
 
         return tf * idf;
     }
@@ -77,7 +74,7 @@ public class SearchEngineImpl implements SearchEngine {
     private IndexEntry mapDocumentToIndexEntry(String id, String term) {
         var entry = new IndexEntryImpl();
         entry.setId(id);
-        double score = calculateScore(id, term);
+        var score = calculateScore(id, term);
         entry.setScore(score);
         return entry;
     }
